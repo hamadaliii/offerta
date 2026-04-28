@@ -6,6 +6,8 @@ import { generateInvoicePDF } from '../../src/services/PdfService';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Sharing from 'expo-sharing';
+import { supabase } from '../../src/services/supabase';
+import { CompanyProfile, QuoteData } from '../../src/types/Quote';
 
 export default function QuotePreview() {
   const { id, data } = useLocalSearchParams();
@@ -23,12 +25,17 @@ export default function QuotePreview() {
   const handleGeneratePdf = async () => {
     if (!quoteData) return;
     try {
-      const uri = await generateInvoicePDF(
-        { client_name: quoteData.client_name },
-        quoteData.items,
-        quoteData.total,
-        quoteData.tax
-      );
+      const { data: profile } = await supabase.from('profiles').select('*').limit(1).single();
+      const company: CompanyProfile = profile || {
+        company_name: "Vox-Offert AB",
+        org_nr: "556000-1111",
+        address: "Sveavägen 1, 111 22 Stockholm",
+        contact_email: "hello@voxoffert.se",
+        contact_phone: "08-123 45 67",
+        default_tax_rate: 25
+      };
+
+      const uri = await generateInvoicePDF(company, quoteData);
       
       const isSharingAvailable = await Sharing.isAvailableAsync();
       if (isSharingAvailable) {
@@ -81,20 +88,20 @@ export default function QuotePreview() {
               <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 16, paddingBottom: 16, borderBottomWidth: 1, borderBottomColor: 'rgba(255,255,255,0.1)' }}>
                 <View>
                   <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: '#FFFFFF' }}>{item.desc}</Text>
-                  <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Qty: {item.qty} x ${item.price}</Text>
+                  <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>Qty: {item.qty} {item.unit} x {item.price} {quoteData.currency}</Text>
                 </View>
-                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 16, color: '#FFFFFF' }}>${item.qty * item.price}</Text>
+                <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 16, color: '#FFFFFF' }}>{item.row_total} {quoteData.currency}</Text>
               </View>
             ))}
 
             <View style={{ marginTop: 16, paddingTop: 16 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 12 }}>
-                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>Tax</Text>
-                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>${quoteData.tax}</Text>
+                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>Moms (25%)</Text>
+                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>{quoteData.tax_amount} {quoteData.currency}</Text>
               </View>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text style={{ fontFamily: 'Inter_700Bold', fontSize: 24, color: '#FFFFFF' }}>Total</Text>
-                <Text style={{ fontFamily: 'Inter_700Bold', fontSize: 24, color: '#FFFFFF' }}>${quoteData.total}</Text>
+                <Text style={{ fontFamily: 'Inter_700Bold', fontSize: 24, color: '#FFFFFF' }}>{quoteData.grand_total} {quoteData.currency}</Text>
               </View>
             </View>
           </GlassCard>

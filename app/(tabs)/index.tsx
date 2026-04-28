@@ -69,14 +69,14 @@ export default function Dashboard() {
             Reach the Summit{"\n"}of your Sales
           </Text>
           <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 16, color: 'rgba(255,255,255,0.7)', marginBottom: 40, lineHeight: 24 }}>
-            Create and send B2B quotes instantly using AI voice processing.
+            Skapa och skicka B2B-offerter direkt med AI-röst.
           </Text>
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }}>
             <GlassCard style={{ width: (width - 50) / 2, padding: 24, minHeight: 160 }}>
               <View style={{ marginBottom: 'auto' }}>
                 <Text style={{ fontFamily: 'Inter_700Bold', fontSize: 36, color: '#FFFFFF' }}>12</Text>
-                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>Outstanding</Text>
+                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>Väntande</Text>
               </View>
               <View style={{ alignSelf: 'flex-start', padding: 8, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 16, marginTop: 16 }}>
                 <DocumentIcon stroke="#FFF" width={20} height={20} />
@@ -86,7 +86,7 @@ export default function Dashboard() {
             <GlassCard style={{ width: (width - 50) / 2, padding: 24, minHeight: 160 }}>
               <View style={{ marginBottom: 'auto' }}>
                 <Text style={{ fontFamily: 'Inter_700Bold', fontSize: 36, color: '#FFFFFF' }}>45</Text>
-                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>Paid Quotes</Text>
+                <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 8 }}>Godkända</Text>
               </View>
               <View style={{ alignSelf: 'flex-start', padding: 8, backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: 16, marginTop: 16 }}>
                 <CheckIcon stroke="#FFF" width={20} height={20} />
@@ -95,15 +95,15 @@ export default function Dashboard() {
           </View>
 
           <GlassCard style={{ width: '100%', padding: 24, marginBottom: 40 }}>
-            <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18, color: '#FFFFFF', marginBottom: 24 }}>Recent Activity</Text>
+            <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 18, color: '#FFFFFF', marginBottom: 24 }}>Senaste Aktivitet</Text>
             {[1, 2, 3].map((i) => (
               <View key={i} style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 16, borderBottomWidth: i === 3 ? 0 : 1, borderBottomColor: 'rgba(255,255,255,0.1)' }}>
                 <View>
-                  <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: '#FFFFFF' }}>Acme Corp Quote</Text>
-                  <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>2 hours ago</Text>
+                  <Text style={{ fontFamily: 'Inter_500Medium', fontSize: 16, color: '#FFFFFF' }}>Offert #{1042 + i}</Text>
+                  <Text style={{ fontFamily: 'Inter_400Regular', fontSize: 14, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>{i * 2} timmar sedan</Text>
                 </View>
                 <View style={{ backgroundColor: 'rgba(255,255,255,0.15)', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16 }}>
-                  <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 12, color: '#FFFFFF' }}>Pending</Text>
+                  <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 12, color: '#FFFFFF' }}>Skickad</Text>
                 </View>
               </View>
             ))}
@@ -122,7 +122,7 @@ export default function Dashboard() {
             icon={<MicIcon stroke={isRecording ? "#FFFFFF" : "#0F172A"} width={28} height={28} />}
           />
           <Text style={{ fontFamily: 'Inter_600SemiBold', fontSize: 16, color: '#FFFFFF' }}>
-            {isProcessing ? 'Processing...' : isRecording ? 'Recording...' : 'Hold to record'}
+            {isProcessing ? 'Bearbetar...' : isRecording ? 'Spelar in...' : 'Håll in för att tala'}
           </Text>
         </GlassCard>
       </View>

@@ -19,3 +19,17 @@ ALTER TABLE quotes ENABLE ROW LEVEL SECURITY;
 
 -- For MVP purposes without strict auth:
 CREATE POLICY "Allow all operations for MVP" ON quotes FOR ALL USING (true);
+
+CREATE TABLE profiles (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID UNIQUE,
+  company_name TEXT NOT NULL,
+  org_nr TEXT,
+  address TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  default_tax_rate NUMERIC DEFAULT 25
+);
+
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Allow all operations for MVP profiles" ON profiles FOR ALL USING (true);
